@@ -74,6 +74,13 @@ Highest `Abnormal Return ~ SUE` sensitivity:
 - **PANW**, **IBM**, **AMD**: consistent upward drift
 
 ---
+## 🧾 Code
+
+### 📌 `PEAD_FNC_FINAL.ipynb`
+Collects earnings and price data for 50 meme stocks, calculates SUE and abnormal returns, and outputs `PEAD_all_tickers.csv`.
+
+### 📌 `PEAD_Regression_25.R`
+Performs statistical modeling on the exported CSV: regressions, significance testing, SUE bucketing, and chart generation.
 
 ## 📌 Next Steps
 
