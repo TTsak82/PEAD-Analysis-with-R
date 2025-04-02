@@ -1,49 +1,96 @@
-# Post-Earnings Announcement Drift (PEAD) Analysis
-
-This repository contains an academic-style analysis of the Post-Earnings Announcement Drift anomaly. The project includes a full R codebase, detailed results, and research findings aimed at understanding the relationship between Standardized Unexpected Earnings (SUE) and post-earnings abnormal returns.
 
 **Author:** Steven Komárek  
-**Date:** May 2024  
-**Tools Used:** R, tidyverse, quantmod, ggplot2, rvest, PerformanceAnalytics
+**Date:** April 2025 
+# Post-Earnings Announcement Drift (PEAD) in Meme Stocks (2023-2024)
 
-## 📈 Project Overview
+This project analyzes **Post-Earnings Announcement Drift (PEAD)** across 50 of the most notable "meme stocks" from 2023–2024. The analysis was conducted using Python for data collection and R for statistical modeling and visualization.
 
-This project investigates the **Post-Earnings Announcement Drift (PEAD)** anomaly using R and a sample of 50 large and small cap U.S. stocks. The analysis tests whether **Standardized Unexpected Earnings (SUE)** can explain abnormal post-earnings returns, challenging the semi-strong form of market efficiency.
+## Objective
 
-## 🧠 Key Findings
+To evaluate whether meme stocks exhibit statistically significant PEAD behavior following quarterly earnings surprises — and if this drift strengthens over time.
+ 
 
-- A strong, statistically significant relationship was found between **SUE and PEAD**, particularly in **2023**, with an adjusted R² of **50.61%**.
-- Stocks with **abnormally high SUE** in Period 2 (30–60 days post-earnings) demonstrated the most consistent drift.
-- 20% of the sampled stocks showed a statistically significant relationship between SUE and PEAD with **Adjusted R² values from 14% to 49%**.
+## Tools Used:
+**Python (`yfinance`, `pandas`)** – data collection: earnings surprises, historical price, benchmark returns
+**R (`tidyverse`, `broom`, `ggplot2`)** – regression modeling, visualization, and statistical testing
+**Excel / QuiverQuant**– meme stock universe sourcing
 
-## 🛠 Methodology
+## Data
 
-- **Data scraped** from [streetinsider.com](https://www.streetinsider.com) using `rvest`
-- Daily returns and S&P 500 data sourced via `quantmod`
-- Cumulative return windows analyzed: **1, 2, and 3 months post-announcement**
-- Multiple regression models evaluated for different subsamples:
-  - By year (2022, 2023, 2024)
-  - Abnormal SUE subsets
-  - By return period
-  - Individual stocks
+- Earnings data from **Yahoo Finance** (`yfinance`)
+- Price data: individual stocks and SPY (S&P 500 ETF)
+- Universe: 50 meme stocks from QuiverQuant's 2023–2024 lists
 
-## 📁 Files
+## Methodology
 
-- `PEAD_Komarek.R`: Full analysis pipeline
-- `PEAD_Report_Steven.pdf`: Research paper with results and discussion
-- `figs/`: Visualizations from regression analysis and exploratory plots
+1. **Standardized Unexpected Earnings (SUE)**:
+   - `SUE = (Reported EPS - Estimate EPS) / stddev(Surprise)`
 
-## 🧪 Future Work
+2. **Post-Earnings Drift Calculation**:
+   - Measured abnormal return vs SPY over 1, 2, and 3 months after earnings
 
-- Automate earnings scraping for larger datasets
-- Incorporate NLP sentiment scores from earnings call transcripts
-- Apply the same methodology to international markets
+3. **Regression Analysis**:
+   - Performed `Abnormal Return ~ SUE` per stock and per holding period
 
-## 📫 Contact
+4. **Bucketing**:
+   - SUE quintiles used to assess drift patterns across surprise magnitudes
 
-Feel free to connect on [LinkedIn](https://www.linkedin.com/in/steven-komarek-90a680220)  
-Or reach me at: stevenkomarek1@gmail.com
+## 📊 Key Results
+![image](https://github.com/user-attachments/assets/f5d21728-4d74-45c1-9247-959050530e46)
+> **Caption:** Distribution of SUE coefficients across all meme stocks shows a roughly normal pattern centered near zero — but with meaningful outliers driving drift in both directions.
+![image](https://github.com/user-attachments/assets/21ea585e-6a80-4818-9882-1d41a23cde44)
+>  **Caption:** PEAD sensitivity (SUE coefficient) increases slightly with holding period, with wider variation at 2–3 months — suggesting drift builds slowly and is more pronounced for select stocks.
+![image](https://github.com/user-attachments/assets/79878e23-ea6f-4454-97d2-990c9fe7a45d)
+> **Caption:** Average abnormal returns increase steadily across SUE quintiles, confirming that stronger earnings surprises drive stronger post-announcement drift — especially over longer holding periods.
+![image](https://github.com/user-attachments/assets/3df7764d-9cd9-4e54-8fb6-7d91741dafbb)
+> **Caption:** Stocks like HOOD and PANW show strong, consistent PEAD over 3 months, while others like AMD exhibit short-term drift that fades — highlighting opportunities for stock-specific post-earnings strategies.
+
+
+
+### ✅ T-Test Between Extreme SUE Quintiles:
+
+| Holding Period | Q1 PEAD | Q5 PEAD | Diff   | p-value |
+|----------------|---------|---------|--------|---------|
+| 1 month        | -7.56%  | +2.23%  | +9.8%  | 0.036   |
+| 2 months       | -5.85%  | +5.74%  | +11.6% | 0.063   |
+| 3 months       | -9.67%  | +6.81%  | +16.5% | 0.042   |
+
+> Drift increases with holding period — confirming delayed market reaction in meme stocks.
 
 ---
 
-> “This nearly 60-year-old anomaly still has a pulse.”
+### 📈 PEAD by SUE Quintile:
+
+- Clear monotonic pattern: higher SUE → higher PEAD
+- Negative surprises drift **downward**, positive ones drift **upward**
+- Most drift materializes over 2–3 months
+
+---
+
+### 🏆 Top PEAD-Sensitive Stocks
+
+Highest `Abnormal Return ~ SUE` sensitivity:
+- **HOOD**: +25% PEAD over 3 months
+- **PANW**, **IBM**, **AMD**: consistent upward drift
+
+---
+
+## 📌 Next Steps
+
+- Backtest long-Q5 strategy across top drift stocks
+- Build volatility- or momentum-adjusted PEAD factors
+- Integrate market cap, institutional ownership, and sentiment overlays
+
+---
+
+## 📄 License
+
+MIT License.
+
+---
+
+## 🙋‍♂️ About
+
+Built by Steven Komárek — MS Finance | Quantitative Analytics | Market Behavior
+
+Let’s connect on [LinkedIn](https://linkedin.com/in/www.linkedin.com/in/steven-komarek-90a680220) or collaborate!
